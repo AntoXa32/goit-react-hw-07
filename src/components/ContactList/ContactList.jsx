@@ -1,25 +1,16 @@
 import { useSelector } from "react-redux";
-import { selectContacts } from "../../redux/contactsSlice";
-import { selectNameFilter } from "../../redux/filtersSlice";
-
 import Contact from "../Contact/Contact";
 import css from "./ContactList.module.css";
-
-const getFilteredContacts = (contacts, valueOfFilter) =>
-  contacts.filter((contact) =>
-    contact.name.toLowerCase().includes(valueOfFilter)
-  );
+import { selectVisibleContacts } from "../../redux/contactsSlice";
 
 export default function ContactList() {
-  const contacts = useSelector(selectContacts);
-  const valueOfFilter = useSelector(selectNameFilter);
-  const filteredContacts = getFilteredContacts(contacts, valueOfFilter);
+  const visibleTasks = useSelector(selectVisibleContacts);
 
   return (
     <ul className={css.list}>
-      {filteredContacts.map(({ id, number, name }) => (
-        <li key={id}>
-          <Contact id={id} number={number} name={name} />
+      {visibleTasks.map((contact) => (
+        <li key={contact.id}>
+          <Contact contact={contact} />
         </li>
       ))}
     </ul>
